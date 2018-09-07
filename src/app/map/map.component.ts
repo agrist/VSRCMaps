@@ -16,18 +16,18 @@ import "rxjs/add/operator/catch";
   templateUrl: "./map.component.html",
   styleUrls: ["./map.component.scss"]
 })
-export class MapComponent implements OnInit {
-  address: string;
+export class MapComponent {
+  private address: string;
+  private url_to_geotiff_file = "http://127.0.0.1:8090/maska_pludi_2017_ct.tif";
+  private url_to_shp_file = "http://127.0.0.1:8090/manualPolygons.geojson";
 
   constructor(
     private mapService: MapService,
     private geocoder: GeocodingService
-  ) {
-    this.address = "";
-  }
+  ) {}
 
   ngOnInit() {
-
+        this.address = "";
         // default map location
         const location = new Location();
         location.address = "Ventspils, Latvia";
@@ -49,10 +49,9 @@ export class MapComponent implements OnInit {
         });
 
 
-          console.log(Object.keys(L));
-        var url_to_geotiff_file = "http://127.0.0.1:8090/maska_pludi_2017_ct.tif";
-        var url_to_shp_file = "http://127.0.0.1:8090/manualPolygons.geojson";
-        var layer = L.leafletGeotiff(url_to_geotiff_file).addTo(map);
+        //  console.log(Object.keys(L));
+
+        var layer = L.leafletGeotiff(this.url_to_geotiff_file).addTo(map);
 
         var overlays = { // TODO this needs to be moved to a function where image overlays are prepared
                    "normal Geotiff": layer };
@@ -67,7 +66,7 @@ export class MapComponent implements OnInit {
 
         $.ajax({
         dataType: "json", //you shouldn't need to declare geojson
-        url: url_to_shp_file,
+        url: this.url_to_shp_file,
         success: function(data) {
             var shape = new L.GeoJSON(data).addTo(map);
             //console.log(data);
@@ -79,16 +78,13 @@ export class MapComponent implements OnInit {
           console.log(e);
         }
         });
-
-
-
       };
 
 
-      let overlayLayerAdition = function(map, izskats){
+       overlayLayerAdition = function(map, izskats){
         $.ajax({
         dataType: "json", //you shouldn't need to declare geojson
-        url: url_to_shp_file,
+        url: this.url_to_shp_file,
         success: function(data) {
             var shape = new L.GeoJSON(data).addTo(map);
             //console.log(data);

@@ -16,18 +16,23 @@ import { ToolbarComponent } from "./toolbar/toolbar.component";
 
 import { MapService } from "./map.service";
 import { GeocodingService } from "./geocoding.service";
+import { RendererService } from "./renderer.service";
 
 import "leaflet";
 import "leaflet.vectorgrid";
+import { ThreedComponent } from './threed/threed.component';
+import { AppRoutingModule } from './/app-routing.module';
 
 @NgModule({
   declarations: [
     NavigatorComponent,
     MapComponent,
     AppComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    ThreedComponent
   ],
   imports: [
+    AppRoutingModule,
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
@@ -38,7 +43,7 @@ import "leaflet.vectorgrid";
     MatTooltipModule,
     MatSnackBarModule
   ],
-  providers: [MapService, GeocodingService],
+  providers: [MapService, GeocodingService, RendererService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
